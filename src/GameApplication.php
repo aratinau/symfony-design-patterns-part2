@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\ActionCommand\AttackCommand;
 use App\Builder\CharacterBuilder;
 use App\Character\Character;
 use App\Observer\GameObserverInterface;
@@ -31,6 +32,9 @@ class GameApplication
             ), '']);
 
             // Player's turn
+            $attackCommand = new AttackCommand($player, $ai, $fightResultSet);
+            $attackCommand->execute();
+            /* le code suivant est maintenant dans AttackCommand
             $playerDamage = $player->attack();
             if ($playerDamage === 0) {
                 GameApplication::$printer->printFor($player)->exhaustedMessage();
@@ -42,7 +46,7 @@ class GameApplication
 
             GameApplication::$printer->printFor($player)->attackMessage($damageDealt);
             GameApplication::$printer->writeln('');
-            usleep(300000);
+            usleep(300000);*/
 
             if ($this->didPlayerDie($ai)) {
                 $this->endBattle($fightResultSet, $player, $ai);
@@ -50,6 +54,9 @@ class GameApplication
             }
 
             // AI's turn
+            $aiAttackCommand = new AttackCommand($ai, $player, $fightResultSet);
+            $aiAttackCommand->execute();
+            /*
             $aiDamage = $ai->attack();
 
             if ($aiDamage === 0) {
@@ -61,7 +68,7 @@ class GameApplication
             $fightResultSet->of($player)->addDamageReceived($damageReceived);
 
             GameApplication::$printer->printFor($ai)->attackMessage($damageReceived);
-            GameApplication::$printer->writeln('');
+            GameApplication::$printer->writeln('');*/
 
             if ($this->didPlayerDie($player)) {
                 $this->endBattle($fightResultSet, $ai, $player);
@@ -86,7 +93,7 @@ class GameApplication
     private function endBattle(FightResultSet $fightResultSet, Character $winner, Character $loser): void
     {
         GameApplication::$printer->printFor($winner)->victoryMessage($loser);
-        
+
         $fightResultSet->setWinner($winner);
         $fightResultSet->setLoser($loser);
         $fightResultSet->of($winner)->addVictory();

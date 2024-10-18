@@ -1,25 +1,10 @@
 # Design Patterns Episode 2
 
-Well hi there! This repository holds the code and script
-for the [Design Patterns Episode 2](https://symfonycasts.com/screencast/design-patterns-2) on SymfonyCasts.
-
 ## Setup
-
-If you've just downloaded the code, congratulations!!
-
-To get it working, follow these steps:
-
-**Download Composer dependencies**
-
-Make sure you have [Composer installed](https://getcomposer.org/download/)
-and then run:
 
 ```
 composer install
 ```
-
-You may alternatively need to run `php composer.phar install`, depending
-on how you installed Composer.
 
 **Running the App!**
 
@@ -29,17 +14,13 @@ This is a command-line only app - so no web server needed. Instead, run:
 php bin/console app:game:play
 ```
 
-Have fun and battle hard!
+## Command Pattern (behavioral pattern)
 
-## Have Ideas, Feedback or an Issue?
+*Remote control for a TV*
 
-If you have suggestions or questions, please feel free to
-open an issue on this repository or comment on the course
-itself. We're watching both :).
+- The command interface
+- The concrete command
+- An invoker object
 
-## Thanks!
-
-And as always, thanks so much for your support and letting
-us do what we love!
-
-<3 Your friends at SymfonyCasts
+![01.png](docs/01.png)
+![02.png](docs/02.png)
