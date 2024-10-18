@@ -24,3 +24,4 @@ php bin/console app:game:play
 
 ![01.png](docs/01.png)
 ![02.png](docs/02.png)
+![03.png](docs/03.png)
