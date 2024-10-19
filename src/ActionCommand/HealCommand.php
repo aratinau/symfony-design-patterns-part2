@@ -8,12 +8,18 @@ use App\GameApplication;
 
 class HealCommand implements ActionCommandInterface
 {
+    private int $currentHealth = 0;
+    private int $stamina = 0;
+
     public function __construct(private readonly Character $player)
     {
     }
 
     public function execute(): void
     {
+        $this->stamina = $this->player->getStamina();
+        $this->currentHealth = $this->player->getCurrentHealth();
+
         $healAmount = Dice::roll(20) + $this->player->getLevel() * 3;
         $newAmount = $this->player->getCurrentHealth() + $healAmount;
         $newAmount = min($newAmount, $this->player->getMaxHealth());
@@ -25,5 +31,11 @@ class HealCommand implements ActionCommandInterface
             'You healed %d damage',
             $healAmount
         ));
+    }
+
+    public function undo(): void
+    {
+        $this->player->setHealth($this->currentHealth);
+        $this->player->setStamina($this->stamina);
     }
 }

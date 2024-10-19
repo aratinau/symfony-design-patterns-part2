@@ -17,4 +17,9 @@ class SurrenderCommand implements ActionCommandInterface
 
         GameApplication::$printer->block('You\'ve surrendered! Better luck next time!');
     }
+
+    public function undo(): void
+    {
+        // Nothing to undo
+    }
 }
