@@ -31,3 +31,13 @@ Grâce au modèle Command, nous avons pu annuler des actions en toute simplicit�
 Supposons que nous voulions rejouer nos batailles et regarder tout ce qui s'est passé à nouveau. Nous pourrions stocker toutes les commandes qui se sont produites lors d'une bataille quelque part, comme une liste, une base de données ou tout autre mécanisme de stockage. Ensuite, nous prenons la liste et nous les exécutons une par une.
 
 ![04.png](docs/04.png)
+
+## Chain of Responsibility
+
+
+Pour faire simple, la chaîne de responsabilité est un moyen de mettre en place une séquence de méthodes à exécuter, où chaque méthode peut décider d'exécuter la suivante dans la chaîne ou d'arrêter complètement la séquence.
+
+Lorsque nous devons exécuter une séquence de vérifications pour déterminer ce qu'il faut faire ensuite, ce modèle peut nous aider à le faire. Supposons que nous voulions vérifier si un commentaire est un spam ou non, et que nous disposions de cinq algorithmes différents pour nous aider à faire cette détermination. Si l'un d'entre eux renvoie un résultat positif, cela signifie que le commentaire est un spam et que nous devrions arrêter le processus, car l'exécution d'algorithmes est coûteuse. Dans une situation comme celle-ci, nous devons encapsuler chaque algorithme dans une classe « handler », configurer la chaîne et l'exécuter.
+
+![05.png](docs/05.png)
+![06.png](docs/06.png)

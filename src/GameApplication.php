@@ -6,6 +6,10 @@ use App\ActionCommand\AttackCommand;
 use App\ActionCommand\HealCommand;
 use App\ActionCommand\SurrenderCommand;
 use App\Builder\CharacterBuilder;
+use App\ChainHandler\CasinoHandler;
+use App\ChainHandler\LevelHandler;
+use App\ChainHandler\OnFireHandler;
+use App\ChainHandler\XpBonusHandlerInterface;
 use App\Character\Character;
 use App\Observer\GameObserverInterface;
 use App\Printer\MessagePrinter;
@@ -19,9 +23,20 @@ class GameApplication
     /** @var GameObserverInterface[] */
     private array $observers = [];
 
+    private XpBonusHandlerInterface $xpBonusHandler;
+
     public function __construct(private readonly CharacterBuilder $characterBuilder)
     {
         $this->difficultyContext = new GameDifficultyContext();
+
+        $casinoHandler = new CasinoHandler();
+        $levelHandler = new LevelHandler();
+        $onFireHandler = new OnFireHandler();
+
+        $casinoHandler->setNext($levelHandler);
+        $levelHandler->setNext($onFireHandler);
+        $this->xpBonusHandler = $casinoHandler;
+
     }
 
     public function play(Character $player, Character $ai, FightResultSet $fightResultSet): void
@@ -121,6 +136,8 @@ class GameApplication
         $fightResultSet->setLoser($loser);
         $fightResultSet->of($winner)->addVictory();
         $fightResultSet->of($loser)->addDefeat();
+        $xpBonus = $this->xpBonusHandler->handle($winner, $fightResultSet->of($winner));
+        $winner->addXp($xpBonus);
 
         $this->notify($fightResultSet);
 
