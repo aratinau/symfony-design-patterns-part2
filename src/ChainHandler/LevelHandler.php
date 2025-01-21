@@ -5,7 +5,12 @@ namespace App\ChainHandler;
 use App\Character\Character;
 use App\FightResult;
 use App\GameApplication;
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 
+
+#[Autoconfigure(
+    calls: [['setNext' => ['@'.OnFireHandler::class]]]
+)]
 class LevelHandler implements XpBonusHandlerInterface
 {
     private XpBonusHandlerInterface $next;

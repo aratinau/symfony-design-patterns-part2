@@ -13,6 +13,8 @@ use App\ChainHandler\XpBonusHandlerInterface;
 use App\Character\Character;
 use App\Observer\GameObserverInterface;
 use App\Printer\MessagePrinter;
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 class GameApplication
 {
@@ -23,11 +25,25 @@ class GameApplication
     /** @var GameObserverInterface[] */
     private array $observers = [];
 
-    private XpBonusHandlerInterface $xpBonusHandler;
+    /*private XpBonusHandlerInterface $xpBonusHandler;*/
 
-    public function __construct(private readonly CharacterBuilder $characterBuilder)
-    {
+    public function __construct(
+        private readonly CharacterBuilder $characterBuilder,
+
+        /**
+         * Nous avons besoin de l'attribut #[Autowire] car
+         * Symfony ne saura pas comment injecter XpBonusHandlerInterface
+         * car il y a plusieurs classes qui l'implémentent.
+         */
+        #[Autowire(service: CasinoHandler::class)]
+        private XpBonusHandlerInterface $xpBonusHandler
+    ) {
         $this->difficultyContext = new GameDifficultyContext();
+
+        /* Note: maintenant utilisé sur CasinoHandler et LevelHandler avec :
+        #[Autoconfigure(
+            calls: [['setNext' => ['@'.OnFireHandler::class]]]
+        )]
 
         $casinoHandler = new CasinoHandler();
         $levelHandler = new LevelHandler();
@@ -35,7 +51,7 @@ class GameApplication
 
         $casinoHandler->setNext($levelHandler);
         $levelHandler->setNext($onFireHandler);
-        $this->xpBonusHandler = $casinoHandler;
+        $this->xpBonusHandler = $casinoHandler;*/
 
     }
 

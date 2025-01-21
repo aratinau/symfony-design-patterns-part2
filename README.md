@@ -41,3 +41,33 @@ Lorsque nous devons exécuter une séquence de vérifications pour déterminer c
 
 ![05.png](docs/05.png)
 ![06.png](docs/06.png)
+
+## Bonus: Null Object Pattern
+
+Qu'est-ce que le modèle Null Object ? C'est une façon intelligente d'éviter les vérifications de nullité. Au lieu de vérifier si une propriété est nulle, comme nous l'avons fait dans le passé, nous allons créer un « objet nul » qui implémente la même interface et ne fait rien dans ses méthodes. En termes simples, si une méthode renvoie une valeur, elle renverra une valeur aussi proche que possible de null. Par exemple, si elle renvoie un tableau, elle renverra un tableau vide. Une chaîne de caractères ? Vous renverrez une chaîne vide. Un int ? Vous renverrez 0. Cela peut être encore plus compliqué que cela, mais vous voyez l'idée.
+
+```php
+<?php
+
+namespace App\ChainHandler;
+
+use App\Character\Character;
+use App\FightResult;
+
+class NullHandler implements XpBonusHandlerInterface
+{
+
+    public function handle(Character $player, FightResult $fightResult): int
+    {
+        return 0;
+    }
+
+    public function setNext(XpBonusHandlerInterface $next): void
+    {
+        // Doing nothing
+    }
+}
+```
+
+![07.png](docs/07.png)
+![08.png](docs/08.png)

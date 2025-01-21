@@ -6,7 +6,17 @@ use App\Character\Character;
 use App\Dice;
 use App\FightResult;
 use App\GameApplication;
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 
+/*
+ * Maintenant, lorsque Symfony instanciera cette classe, il appellera setNext() et passera un objet LevelHandler.
+ *
+ * D'ailleurs, si vous vous demandez ce que signifie ce préfixe @, c'est bien vu !
+ * Cela indique à Symfony de passer le service LevelHandler.
+ * Si nous ne l'avions pas ajouté, il passerait la chaîne de la classe LevelHandler, ce qui n'est absolument pas ce que nous voulons.*/
+#[Autoconfigure(
+    calls: [['setNext' => ['@'.OnFireHandler::class]]]
+)]
 class CasinoHandler implements XpBonusHandlerInterface
 {
     private XpBonusHandlerInterface $next;
