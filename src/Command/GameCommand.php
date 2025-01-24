@@ -9,6 +9,7 @@ use App\Printer\MessagePrinter;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -22,6 +23,11 @@ class GameCommand extends Command
         parent::__construct();
     }
 
+    protected function configure(): void
+    {
+        $this->addOption('cheatCode', 'c', InputOption::VALUE_OPTIONAL);
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -30,6 +36,10 @@ class GameCommand extends Command
         GameApplication::$printer = new MessagePrinter($io);
 
         $io->section('Welcome to the game where warriors fight against each other for honor and glory... and 🍕!');
+
+        if ($input->getOption('cheatCode')) {
+            $this->game->activateCheatCode($input->getOption('cheatCode'));
+        }
 
         $characters = $this->game->getCharactersList();
         $playerChoice = $io->choice('Select your character', $characters);

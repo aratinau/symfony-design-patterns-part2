@@ -11,6 +11,7 @@ use App\ChainHandler\LevelHandler;
 use App\ChainHandler\OnFireHandler;
 use App\ChainHandler\XpBonusHandlerInterface;
 use App\Character\Character;
+use App\Factory\UltimateAttackTypeFactory;
 use App\Observer\GameObserverInterface;
 use App\Printer\MessagePrinter;
 use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
@@ -58,7 +59,7 @@ class GameApplication
     public function play(Character $player, Character $ai, FightResultSet $fightResultSet): void
     {
         while (true) {
-            $player->setHealth(100);
+            // $player->setHealth(100); // pour être toujours gagnant
             $fightResultSet->addRound();
             GameApplication::$printer->writeln([
                 '------------------------------',
@@ -264,6 +265,20 @@ class GameApplication
     {
         foreach ($this->observers as $observer) {
             $observer->onFightFinished($fightResultSet);
+        }
+    }
+
+    public function activateCheatCode(string $cheatCode): void
+    {
+        switch ($cheatCode) {
+            // Famous Konami Code
+            case 'up-up-down-down-left-right-left-right-b-a-start':
+                $this->characterBuilder->setAttackTypeFactory(new UltimateAttackTypeFactory());
+                self::$printer->info('Cheat code activated!!');
+                break;
+            default:
+                self::$printer->info('Invalid cheat code - better luck next time!');
+                break;
         }
     }
 }

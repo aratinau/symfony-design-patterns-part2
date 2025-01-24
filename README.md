@@ -142,3 +142,14 @@ Cependant, il y a quelques inconvénients à cette approche, comme la perte de l
 La dernière variante dont nous parlerons est la « fabrique abstraite ». Dans cette approche, nous avons plusieurs usines qui implémentent la même interface, et chaque usine concrète crée une famille d'objets. Dans notre exemple d'armes de personnages, nous pourrions regrouper les armes en fonction du matériau dont elles sont faites, comme le fer ou l'acier, et chaque fabrique ne créerait que des armes de ce matériau.
 
 En fonction de l'application, nous pouvons choisir la fabrique qui sera utilisée en fonction d'une certaine configuration, ou échanger la fabrique au moment de l'exécution en fonction d'un événement. Dans notre jeu, nous pourrions changer la fabrique d'armes à chaque fois que le niveau du jeu change, ce qui rendrait les choses plus excitantes.
+
+## The Abstract Factory Pattern
+
+
+Améliorons notre AttackTypeFactory et faisons-en une fabrique abstraite. Comme nous l'avons vu dans le chapitre précédent, une fabrique abstraite nous permet de gérer des familles d'objets. Pour illustrer cela, nous introduisons des codes de triche dans le jeu qui, s'ils sont activés, nous donneront des armes super puissantes. Oh oui, maintenant nous pouvons vraiment dominer le jeu ! Pour ajouter des cheat codes, nous aurons besoin de créer une autre fabrique et un moyen de l'échanger au moment de l'exécution. C'est parti !
+
+```
+php bin/console app:game:play -c up-up-down-down-left-right-left-right-b-a-start
+```
+
+![24.png](docs/24.png)

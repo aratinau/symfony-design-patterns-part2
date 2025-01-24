@@ -12,7 +12,7 @@ use App\AttackType\FireBoltType;
 use App\AttackType\MultiAttackType;
 use App\AttackType\TwoHandedSwordType;
 use App\Character\Character;
-use App\Factory\AttackTypeFactory;
+use App\Factory\AttackTypeFactoryInterface;
 
 class CharacterBuilder
 {
@@ -23,7 +23,8 @@ class CharacterBuilder
     private int $level;
 
     public function __construct(
-        private readonly AttackTypeFactory $attackTypeFactory
+        //private readonly AttackTypeFactory $attackTypeFactory
+        private AttackTypeFactoryInterface $attackTypeFactory
     ) {
     }
 
@@ -119,5 +120,10 @@ class CharacterBuilder
         $this->attackTypes = [];
         $this->armorType = '';
         $this->level = 0;
+    }
+
+    public function setAttackTypeFactory(AttackTypeFactoryInterface $attackTypeFactory): void
+    {
+        $this->attackTypeFactory = $attackTypeFactory;
     }
 }
