@@ -71,3 +71,26 @@ class NullHandler implements XpBonusHandlerInterface
 
 ![07.png](docs/07.png)
 ![08.png](docs/08.png)
+
+## The state pattern
+
+State pattern est un moyen d'organiser votre code de manière à ce qu'un objet puisse modifier son comportement lorsque son état interne change. Il vous aide à représenter les différents états comme des classes séparées et permet à l'objet de passer d'un état à l'autre de manière transparente.
+
+![09.png](docs/09.png)
+
+Supposons que nous ayons une fonction publishPost() qui fera différentes choses en fonction du statut d'un article. Si l'article est un brouillon, elle changera le statut en « modération » et informera le modérateur. Si l'article est déjà en modération et que l'utilisateur est un administrateur, il passera au statut « publié » et enverra un tweet.
+
+![10.png](docs/10.png)
+
+Si le joueur gagne, nous appelons `victory()` sur l'objet du jeu, sinon nous appelons `defeat()`. Jetons un coup d'œil à la méthode `victory()`. Maintenez la touche « Commande » enfoncée, cliquez, et... oh ! c'est juste un raccourci pour appeler victory() sur cette propriété difficultyContext. Il s'agit d'une instance de la classe GameDifficultyContext, chargée de gérer les niveaux de difficulté.
+
+![11.png](docs/11.png)
+![12.png](docs/12.png)
+
+![13.png](docs/13.png)
+![14.png](docs/14.png)
+![15.png](docs/15.png)
+![16.png](docs/16.png)
+![17.png](docs/17.png)
+![18.png](docs/18.png)
+![19.png](docs/19.png)
