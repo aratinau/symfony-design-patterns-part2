@@ -94,3 +94,51 @@ Si le joueur gagne, nous appelons `victory()` sur l'objet du jeu, sinon nous app
 ![17.png](docs/17.png)
 ![18.png](docs/18.png)
 ![19.png](docs/19.png)
+
+## The Factory Pattern
+
+![20.png](docs/20.png)
+
+Le motif d'usine est composé de cinq parties:
+
+- La première partie est une interface des produits que nous voulons créer. Si nous voulions créer des armes pour nos personnages, par exemple, Nous aurions un WeaponInterface, et les produits seraient des armes.
+
+- Deuxièmement, les produits en béton qui mettent en œuvre l'interface. Dans cet exemple, nous aurions des classes comme Sword, Axe, Bow, et ainsi de suite.
+
+- Le troisième est l'interface d'usine. C'est facultatif, mais c'est super utile quand vous avez besoin de créer des familles de produits.
+
+- Quatrièmement, l'usine de béton qui met en œuvre l'interface d'usine si nous en avons une. Cette classe sait tout sur la création de produits.
+
+- Et enfin, nous avons le client, qui utilise une usine pour créer des objets de produits. Cette classe ne sait que comment utiliser les produits, mais pas comment ils sont créés, ou quel produit spécifique il se trouve qu'il utilise.
+
+![21.png](docs/21.png)
+Il y a plus d'une variante du modèle d'Usine. La variante la plus simple est une usine à multiple make methods - un pour chaque produit possible. Cette usine ressemblerait à ceci :
+
+```php
+class WeaponFactory
+{
+    public function makeSword(): WeaponInterface
+    {
+        return new Sword(Dice::rollRange(4, 8), 12);
+    }
+
+    public function makeAxe(int $bonusDamage = 0): WeaponInterface
+    {
+        return new Axe($bonusDamage + Dice::rollRange(6, 12), 8);
+    }
+}
+```
+
+Cette variante est utile lorsque l'appelant sait déjà de quel objet il a besoin. Il est également facile d'avoir des arguments de constructeur différents pour chaque type.
+
+![22.png](docs/22.png)
+
+Une autre approche consiste à utiliser une seule méthode « make ». Celle-ci recevra un argument et déterminera l'objet qu'elle doit créer. Cette méthode est utile lorsque l'application est plus dynamique. La valeur $type peut provenir de l'entrée de l'utilisateur, d'une requête ou d'autre chose.
+
+Cependant, il y a quelques inconvénients à cette approche, comme la perte de la sécurité des types, puisque n'importe quelle chaîne peut être envoyée comme type. Heureusement, cela peut être résolu avec une bonne suite de tests, ou en transformant la chaîne en une énumération. Il est également difficile d'avoir des arguments de constructeur différents pour chaque type.
+
+![23.png](docs/23.png)
+
+La dernière variante dont nous parlerons est la « fabrique abstraite ». Dans cette approche, nous avons plusieurs usines qui implémentent la même interface, et chaque usine concrète crée une famille d'objets. Dans notre exemple d'armes de personnages, nous pourrions regrouper les armes en fonction du matériau dont elles sont faites, comme le fer ou l'acier, et chaque fabrique ne créerait que des armes de ce matériau.
+
+En fonction de l'application, nous pouvons choisir la fabrique qui sera utilisée en fonction d'une certaine configuration, ou échanger la fabrique au moment de l'exécution en fonction d'un événement. Dans notre jeu, nous pourrions changer la fabrique d'armes à chaque fois que le niveau du jeu change, ce qui rendrait les choses plus excitantes.
